@@ -5,13 +5,15 @@
 </head>
 <body>
     <h1>Vytvoriť inzerát o ceste</h1>
-    <form method="post" action="/add_trip">
-        <label>Trasa</label>
-        <input type="text" name="route" required>
-        <label>Čas</label>
-        <input type="text" name="time" required>
-        <label>Podmienky</label>
-        <input type="text" name="conditions">
+    <form method="post" action="/add_rides">
+        <label>From_location</label>
+        <input type="text" name="from_location" required>
+        <label>To_location</label>
+        <input type="text" name="to_location" required>
+        <label>Date</label>
+        <input type="text" name="date" required>
+        <label>Notes</label>
+        <input type="text" name="notes">
         <input type="submit" value="Pridať inzerát">
     </form>
 </body>
