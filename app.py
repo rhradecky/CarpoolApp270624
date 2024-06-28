@@ -71,7 +71,7 @@ def welcome(username):
 
 
 @app.route("/create_ad", methods=['GET', "POST"])
-def add_rides():
+def create_ad():
     if request.method == "POST":
         from_location = request.form["from_location"]
         to_location = request.form["to_location"]
@@ -84,6 +84,7 @@ def add_rides():
         cur.close()
         return redirect(url_for('success'))
     return redirect(url_for("create_ad"))
+
 
 
 @app.route('/success')
