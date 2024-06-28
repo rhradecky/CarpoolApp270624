@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import psycopg2
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"
+# app.secret_key = "your_secret_key"
 
 
 # Pripojenie k PostgreSQL databáze
@@ -31,7 +31,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if username in Users and Users[username] == password:
+        if username in users and users[username] == password:
             return redirect(url_for('welcome', username=username))
         else:
             error = "Invalid username or password"
@@ -70,7 +70,7 @@ def welcome(username):
 #     return render_template("register.html")
 
 
-@app.route("/create_ad", methods=['GET', "POST"])
+@app.route("/create_ad", methods=["GET", "POST"])
 def create_ad():
     if request.method == "POST":
         from_location = request.form["from_location"]
@@ -83,8 +83,8 @@ def create_ad():
         conn.commit()
         cur.close()
         return redirect(url_for('success'))
-    return redirect(url_for("create_ad"))
-
+    else:
+        return redirect(url_for("create_ad"))
 
 
 @app.route('/success')
