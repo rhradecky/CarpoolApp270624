@@ -14,11 +14,13 @@
         <button type="submit">Vyhľadať cestu</button>
     </form>
     <h2>Dostupné cesty:</h2>
-    <ul>
-        {% for filtered_ride in rides %}
-            <li>{{ ride.from_location }} - {{ ride.to_location }} ({{ ride.date }})</li>
+<ul>
+        {% for ride in rides %}
+            <li>
+                {{ ride.from_location }} - {{ ride.to_location }} ({{ ride.date }})
+                <button class="register-button">Register</button>
+            </li>
         {% endfor %}
-        <input type="submit" value="Prihlasit sa">
     </ul>
 
     </body>

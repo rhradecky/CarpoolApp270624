@@ -44,15 +44,6 @@ def welcome(username):
     return render_template('welcome.html', username=username)
 
 
-# @app.route("/search")
-# def search():
-#     # Získanie údajov o cestách z databázy
-#     cur = conn.cursor()
-#     cur.execute("SELECT * FROM rides")
-#     trips = cur.fetchall()
-#     cur.close()
-#     return render_template("search.html", rides=rides)
-
 # Ďalšie routy a funkcie (registrácia, prihlásenie, vytváranie ciest, atď.)
 
 # @app.route("/register", methods=["GET", "POST"])
@@ -111,12 +102,18 @@ def success():
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
-    route = request.args.get("rides")
+    rides = request.args.get("rides")
+    if request.method == 'POST':
+     from_location = request.form.get('from_location')
+     to_location = request.form.get('to_location')
+     filtered_rides = [ride for ride in rides if
+                          from_location.lower() in ride['from_location'].lower() and
+                          to_location.lower() in ride['to_location'].lower()]
     # Implementujte logiku pre vyhľadávanie ciest v databáze na základe zadaných kritérií
     # Napríklad: SELECT * FROM trips WHERE route ILIKE %s;
     # ILIKE umožňuje nezávislé na veľkosti písmen vyhľadávanie
     cur = conn.cursor()
-    cur.execute("SELECT * FROM rides WHERE from_location ILIKE %s", (f"%{route}%",))
+    cur.execute("SELECT from_location, to_location, date FROM rides WHERE from_location ILIKE %s", (f"%{rides}%",))
     rides = cur.fetchall()
     cur.close()
     return render_template("search.html", rides=rides)
