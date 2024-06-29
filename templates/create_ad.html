@@ -1,22 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vytvoriť inzerát o ceste</title>
+    <title>Pridaj cestu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 <body>
-    <h1>Vytvoriť inzerát o ceste</h1>
-    <form method="post" action="/add_rides">
-        <label>From_location</label>
-        <input type="text" name="from_location" required>
-        <label>To_location</label>
-        <input type="text" name="to_location" required>
-        <label>Date</label>
-        <input type="text" name="date" required>
-        <label>Notes</label>
-        <input type="text" name="notes">
-        <input type="submit" value="Pridať inzerát">
+    <h1>Pridaj cestu:</h1>
+    <form method="POST" action="{{ url_for('create_ad') }}">
+        <input type="text" id="route" name="from" placeholder="From">
+        <input type="text" id="route" name="to" placeholder="To">
+        <input type="time" id="time" name="time" placeholder="Time">
+        <input type="date" id="date" name="date" placeholder="Date">
+        <input type="text" name="podmienky" rows="4" placeholder="Notes">
+        <button type="submit">Add Trip</button>
     </form>
 </body>
 </html>
