@@ -14,7 +14,6 @@ conn = psycopg2.connect(
     port=50013
 )
 
-
 users = {
     'john': 'password123',
     'jane': 'mypassword'
@@ -73,9 +72,9 @@ def create_ad():
                     (from_location, to_location, date, notes))
         conn.commit()
         cur.close()
-        return redirect(url_for('success'))
+        return redirect(url_for("success"))
     else:
-        return redirect(url_for("create_ad"))
+        return render_template("create_ad.html")
 
 
 @app.route('/success')
@@ -97,16 +96,16 @@ def success():
 #      trips = cur.fetchall()
 #      cur.close()
 #      return render_template('search.html', rides=filtered_rides)
-    # return render_template('search.html', rides=rides)
+# return render_template('search.html', rides=rides)
 
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
     rides = request.args.get("rides")
     if request.method == 'POST':
-     from_location = request.form.get('from_location')
-     to_location = request.form.get('to_location')
-     filtered_rides = [ride for ride in rides if
+        from_location = request.form.get('from_location')
+        to_location = request.form.get('to_location')
+        filtered_rides = [ride for ride in rides if
                           from_location.lower() in ride['from_location'].lower() and
                           to_location.lower() in ride['to_location'].lower()]
     # Implementujte logiku pre vyhľadávanie ciest v databáze na základe zadaných kritérií
