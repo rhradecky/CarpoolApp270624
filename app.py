@@ -68,7 +68,7 @@ def create_ad():
         date = request.form["date"]
         notes = request.form["notes"]
         cur = conn.cursor()
-        cur.execute("INSERT INTO rides (from_location, to_location, date, notes) VALUES (%s, %s, %s)",
+        cur.execute("INSERT INTO rides (from_location, to_location, date, notes) VALUES (%s, %s, %s, %s)",
                     (from_location, to_location, date, notes))
         conn.commit()
         cur.close()
