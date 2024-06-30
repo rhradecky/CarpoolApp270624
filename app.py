@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, login_user, logout_user
+# from flask_login import UserMixin, LoginManager, login_user, logout_user
 
 app = Flask(__name__)
 app.secret_key = b'super_secret_key_lucia'
@@ -19,30 +19,29 @@ class Rides(db.Model):
     notes = db.Column(db.Text(255))
 
 
-class Users(db.Model, UserMixin):
+class Users(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False)
     notes = db.Column(db.String(255), nullable=False)
 
-    def get_id(self):
-        return str(self.user_id)
 
 
-# users = {
-#     'john': 'password123',
-#     'jane': 'mypassword'
-# }
+
+users = {
+    'john': 'password123',
+    'jane': 'mypassword'
+}
 
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return Users.query.get(int(user_id))
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+#
+#
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return Users.query.get(int(user_id))
 
 
 @app.route('/')
@@ -55,7 +54,9 @@ def home():
 #     if request.method == 'POST':
 #         username = request.form['username']
 #         password = request.form['password']
-#         if username in users and users[username] == password:
+#         user = Users.query.filter_by(username=username).first()
+#         if user and user.password == password:
+#             login_user(user)
 #             return redirect(url_for('welcome', username=username))
 #         else:
 #             error = "Invalid username or password"
@@ -63,19 +64,12 @@ def home():
 #     return render_template('login.html')
 
 
-# @app.route('/welcome/<username>')
-# def welcome(username):
-#     return render_template('welcome.html', username=username)
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = Users.query.filter_by(username=username).first()
-        if user and user.password == password:
-            login_user(user)
+        if username in users and users[username] == password:
             return redirect(url_for('welcome', username=username))
         else:
             error = "Invalid username or password"
@@ -107,7 +101,7 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        # Redirect to the login page or any other relevant page
+
         flash("User registered successfully!", "success")  # Add this line
 
         return redirect(url_for('login'))
@@ -188,13 +182,6 @@ def search():
 #         username = request.form['username']
 #         email = request.form['email']
 #
-#         # Vytvorte nový záznam pre používateľa v databáze
-#         # Predpokladáme, že máte model Users pre používateľov
-#         # a že máte vytvorenú tabuľku pre používateľov v databáze
-#         # Tu by ste mali pridať ďalšie údaje, ako napríklad heslo
-#         # a overiť, či používateľ už nie je registrovaný
-#         # ...
-#
 #         flash("Registrácia na jazdu prebehla úspešne!", "success")
 #         return redirect(url_for('welcome', username=username))
 #
@@ -221,13 +208,6 @@ def register_for_ride(ride_id):
             return render_template("register.html",
                                    message="Email address already registered. Please use a different email.")
 
-        # Create a new record for the user in the database
-        # Assuming you have a Users model for users
-        # and a corresponding table for users in the database
-        # You should add additional data (e.g., password)
-        # and verify whether the user is already registered
-        # ...
-
         return f"Registration successful! You are registered for ride ID {ride_id}"
 
     # Get ride information from the database
@@ -241,9 +221,7 @@ def about():
         'project_name': 'Názov nášho projektu',
         'description': 'Stručný popis projektu.',
         'developers': [
-            {'name': 'Ján Novák', 'role': 'Hlavný vývojár'},
-            {'name': 'Eva Hrušková', 'role': 'Dizajnérka'},
-            # Pridajte ďalšie informácie o vývojároch podľa potreby
+            {'name': 'Lucia Mihalikova', 'role': 'Developer'},
         ]
     }
     return render_template('about.html', about_info=about_info)

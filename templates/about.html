@@ -3,19 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>About Us</title>
+    <style>
+        /* Customize the style according to your preferences */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
-    <div class="about-section">
-    <h1>O nás</h1>
-    <p>{{ about_info.description }}</p>
-    <h2>Vývojári</h2>
-    <ul>
-        {% for developer in about_info.developers %}
-            <li>{{ developer.name }} - {{ developer.role }}</li>
-        {% endfor %}
-    </ul>
-</div>
+    <div class="container">
+        <h1>About Us</h1>
+        <p>Welcome to our web application! Our goal is to connect people traveling in the same direction so they can share rides and reduce fuel costs and the number of cars on the road.</p>
+        <p>We believe carpooling is a sustainable solution for our planet, and we're building a community to make it happen.</p>
+        <p>If you have any questions or ideas, feel free to reach out to us!</p>
+
+        <!-- Developers Section -->
+        <h2>Meet the Team</h2>
+        <ul>
+            <li>Lucia Mihalikova - Developer</li>
+            <!-- Add more team members here if needed -->
+        </ul>
+
+        <!-- Contact Information -->
+        <h2>Contact Us</h2>
+        <p>If you'd like to get in touch, feel free to email us at <a href="mailto:ridepals@ridepals.com">ridepals@ridepals.com</a>.</p>
+    </div>
+    <div class="footer">
+        &copy; 2024 RidePals | All rights reserved
+    </div>
 </body>
 </html>
 
