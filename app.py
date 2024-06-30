@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, LoginManager, login_user, logout_user
 
 app = Flask(__name__)
 app.secret_key = b'super_secret_key_lucia'
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://uwj8p4v8zuoeyv3iqlxg:Kh3N5D3JtxcCyJeXuUeeZVNCROL6Jo@b1mxnbtfaytwhs4af34m-postgresql.services.clever-cloud.com:50013/b1mxnbtfaytwhs4af34m"
+app.config[
+    "SQLALCHEMY_DATABASE_URI"] = "postgresql://uwj8p4v8zuoeyv3iqlxg:Kh3N5D3JtxcCyJeXuUeeZVNCROL6Jo@b1mxnbtfaytwhs4af34m-postgresql.services.clever-cloud.com:50013/b1mxnbtfaytwhs4af34m"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
@@ -17,18 +19,30 @@ class Rides(db.Model):
     notes = db.Column(db.Text(255))
 
 
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=False)
     notes = db.Column(db.String(255), nullable=False)
 
+    def get_id(self):
+        return str(self.user_id)
 
-users = {
-    'john': 'password123',
-    'jane': 'mypassword'
-}
+
+# users = {
+#     'john': 'password123',
+#     'jane': 'mypassword'
+# }
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
 
 
 @app.route('/')
@@ -36,12 +50,32 @@ def home():
     return redirect(url_for('login'))
 
 
+# @app.route('/login', methods=['GET', 'POST'])
+# def login():
+#     if request.method == 'POST':
+#         username = request.form['username']
+#         password = request.form['password']
+#         if username in users and users[username] == password:
+#             return redirect(url_for('welcome', username=username))
+#         else:
+#             error = "Invalid username or password"
+#             return render_template('login.html', error=error)
+#     return render_template('login.html')
+
+
+# @app.route('/welcome/<username>')
+# def welcome(username):
+#     return render_template('welcome.html', username=username)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if username in users and users[username] == password:
+        user = Users.query.filter_by(username=username).first()
+        if user and user.password == password:
+            login_user(user)
             return redirect(url_for('welcome', username=username))
         else:
             error = "Invalid username or password"
@@ -52,6 +86,12 @@ def login():
 @app.route('/welcome/<username>')
 def welcome(username):
     return render_template('welcome.html', username=username)
+
+
+@app.route('/logout')
+def logout():
+    logout_users()
+    return redirect(url_for('login'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -78,21 +118,22 @@ def register():
 @app.route('/create_ad', methods=['GET', 'POST'])
 def create_ad():
     if request.method == 'POST':
-       from_location = request.form['from_location']
-       to_location = request.form['to_location']
-       date = request.form['date']
-       notes = request.form['notes']
+        from_location = request.form['from_location']
+        to_location = request.form['to_location']
+        date = request.form['date']
+        notes = request.form['notes']
 
-       try:
-           ride = Rides(from_location=from_location, to_location=to_location, date=date, notes=notes)
-           db.session.add(ride)
-           db.session.commit()
-           return redirect('/success')
-       except Exception as e:
+        try:
+            ride = Rides(from_location=from_location, to_location=to_location, date=date, notes=notes)
+            db.session.add(ride)
+            db.session.commit()
+            return redirect('/success')
+        except Exception as e:
             print(f"Error inserting data: {str(e)}")
             return "An error occurred while inserting data. Please try again."
 
     return render_template('create_ad.html')
+
 
 @app.route('/success')
 def success():
@@ -177,7 +218,8 @@ def register_for_ride(ride_id):
             return render_template("register.html", message="Username already taken. Please choose another one.")
 
         if existing_email:
-            return render_template("register.html", message="Email address already registered. Please use a different email.")
+            return render_template("register.html",
+                                   message="Email address already registered. Please use a different email.")
 
         # Create a new record for the user in the database
         # Assuming you have a Users model for users
