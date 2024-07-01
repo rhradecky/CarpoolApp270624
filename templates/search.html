@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-            <title>Vyhladaj cestu</title>
+    <title>Vyhladaj cestu</title>
     <style>
         /* Customize the style according to your preferences */
         body {
@@ -15,12 +14,21 @@
             padding: 0;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 1000px; /* Adjust the width as needed */
+            margin: 50px auto;
             padding: 20px;
             background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .form-container input {
+            flex: 1;
+            margin-right: 10px;
         }
         .footer {
             text-align: center;
@@ -28,25 +36,34 @@
             font-size: 14px;
             color: #888;
         }
+        .trip-list {
+            margin-top: 20px; /* Add a bigger gap between form and trip list */
+        }
     </style>
 </head>
 <body>
-    <h1>Vyhladaj cestu:</h1>
-    <form method="POST" action="/search">
-        <input type="text" name="from_location" placeholder="Z miesta">
-        <input type="text" name="to_location" placeholder="Do miesta">
-        <button type="submit">Vyhľadať cestu</button>
-    </form>
+    <div class="container">
+        <h1>Search Trip:</h1>
+        <form method="POST" action="/search">
+            <input type="text" name="from_location" placeholder="From">
+            <input type="text" name="to_location" placeholder="To">
+            <button type="submit">Search</button>
+        </form>
 
-        <h2>Dostupné cesty:</h2>
-<ul>
-        {% for ride in rides %}
-            <li>
-                {{ ride.from_location }} - {{ ride.to_location }} ({{ ride.date }})
-                <button class="register-button">Register</button>
-            </li>
-        {% endfor %}
-    </ul>
-
-    </body>
+        <div class="trip-list">
+            <h2>Trips Found:</h2>
+            <ul>
+                {% for ride in rides %}
+                    <li>
+                        {{ ride.from_location }} - {{ ride.to_location }} ({{ ride.date }})
+                        <button class="register-button">Register</button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; 2024 RidePals | All rights reserved
+    </div>
+</body>
 </html>

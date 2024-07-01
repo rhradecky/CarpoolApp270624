@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Login</title>
     <title>Registrácia</title>
     <style>
         /* Customize the style according to your preferences */
@@ -15,12 +14,21 @@
             padding: 0;
         }
         .container {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 1000px; /* Adjust the width as needed */
+            margin: 50px auto;
             padding: 20px;
             background-color: #ffffff;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .form-container input {
+            flex: 1;
+            margin-right: 10px;
         }
         .footer {
             text-align: center;
@@ -31,14 +39,20 @@
     </style>
 </head>
 <body>
-    <h1>Registrácia</h1>
-        <form action="/register" method="post">
-        <input type="text" name="username" placeholder="Name">
-        <input type="password" name="password" placeholder="Password">
-        <input type="text" name="email" placeholder="Email">
-        <input type="text" name="notes" placeholder="Notes">
-
-        <input type="submit" value="Register">
-    </form>
+    <div class="container">
+        <h1>Register</h1>
+        <div class="form-container">
+            <form action="/register" method="post">
+                <input type="text" name="username" placeholder="Name">
+                <input type="password" name="password" placeholder="Password">
+                <input type="text" name="email" placeholder="Email">
+                <input type="text" name="notes" placeholder="Notes">
+                <button type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        &copy; 2024 RidePals | All rights reserved
+    </div>
 </body>
 </html>

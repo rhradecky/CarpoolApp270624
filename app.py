@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
-# from flask_login import UserMixin, LoginManager, login_user, logout_user
 
 app = Flask(__name__)
 app.secret_key = b'super_secret_key_lucia'
@@ -29,19 +28,11 @@ class Users(db.Model):
 
 
 
-users = {
-    'john': 'password123',
-    'jane': 'mypassword'
+# users = {
+#     'john': 'password123',
+#     'jane': 'mypassword'
+
 }
-
-
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-#
-#
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return Users.query.get(int(user_id))
 
 
 @app.route('/')
@@ -49,31 +40,22 @@ def home():
     return redirect(url_for('login'))
 
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'POST':
-#         username = request.form['username']
-#         password = request.form['password']
-#         user = Users.query.filter_by(username=username).first()
-#         if user and user.password == password:
-#             login_user(user)
-#             return redirect(url_for('welcome', username=username))
-#         else:
-#             error = "Invalid username or password"
-#             return render_template('login.html', error=error)
-#     return render_template('login.html')
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if username in users and users[username] == password:
+
+        # Query the database for the user
+        user = Users.query.filter_by(username=username).first()
+
+        if user and user.password == password:
+            # Successful login
             return redirect(url_for('welcome', username=username))
         else:
             error = "Invalid username or password"
             return render_template('login.html', error=error)
+
     return render_template('login.html')
 
 
@@ -156,38 +138,6 @@ def search():
             return f"Error: {str(e)}"
 
     return render_template("search.html")
-
-
-# @app.route('/join_ride/<int:ride_id>', methods=['POST'])
-# def join_ride():
-#     rides_id = request.form.get('rides_id')
-#     user_id = current_user.id  # Assuming you have a way to get the current user
-#
-#     # Find the ride by ID
-#     ride = Rides.query.get(rides_id)
-#
-#     if ride:
-#         # Update the ride with the user ID
-#         ride.username = username
-#         db.session.commit()
-#         return "Successfully joined the ride!"
-#     else:
-#         return "Ride not found."
-
-
-# @app.route('/register/<int:ride_id>', methods=['GET', 'POST'])
-# def register_for_ride(ride_id):
-#     if request.method == 'POST':
-#         # Získajte údaje z formulára
-#         username = request.form['username']
-#         email = request.form['email']
-#
-#         flash("Registrácia na jazdu prebehla úspešne!", "success")
-#         return redirect(url_for('welcome', username=username))
-#
-#     # Získajte informácie o jazde z databázy
-#     ride = Rides.query.get(ride_id)
-#     return render_template('register.html', ride=ride)
 
 
 @app.route('/register/<int:ride_id>', methods=['GET', 'POST'])
