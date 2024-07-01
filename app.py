@@ -143,31 +143,6 @@ def search():
     return render_template("search.html")
 
 
-# @app.route('/register/<int:ride_id>', methods=['GET', 'POST'])
-# def register_for_ride(ride_id):
-#     if request.method == 'POST':
-#         # Get data from the form
-#         username = request.form['username']
-#         email = request.form['email']
-#
-#         # Check if the username or email is already in use
-#         existing_user = Users.query.filter_by(username=username).first()
-#         existing_email = Users.query.filter_by(email=email).first()
-#
-#         if existing_user:
-#             return render_template("register.html", message="Username already taken. Please choose another one.")
-#
-#         if existing_email:
-#             return render_template("register.html",
-#                                    message="Email address already registered. Please use a different email.")
-#
-#         return f"Registration successful! You are registered for ride ID {ride_id}"
-#
-#     # Get ride information from the database
-#     ride = Rides.query.get(ride_id)
-#     return render_template('register.html', ride=ride)
-
-
 @app.route('/register_trip', methods=['POST'])
 def register_trip():
     try:
