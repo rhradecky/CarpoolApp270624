@@ -39,6 +39,20 @@
     </style>
 </head>
 <body>
+<h1>RidePals</h1>
+    <div class="navbar">
+        <div class="menu-icon" id="menu-icon">
+            <!-- Your menu icon content -->
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="{{ url_for('menu') }}">Home</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+            <li><a href="{{ url_for('search') }}">Search Trip</a></li>
+            <li><a href="{{ url_for('create_ad') }}">Add Trip</a></li>
+            <li><a href="{{ url_for('menu') }}">About Us</a></li>
+        </ul>
+    </div>
     <div class="container">
         <h1>Add Trip:</h1>
         <div class="form-container">

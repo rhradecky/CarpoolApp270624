@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Navigation Menu</title>
+    <style>
+    <title>Title</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="menu-icon" id="menu-icon">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#">Menu</a></li>
+            <li><a href="{{ url_for('menu') }}">Home</a></li>
+            <li><a href="{{ url_for('home') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+            <li><a href="{{ url_for('search') }}">Search Trip</a></li>
+            <li><a href="{{ url_for('create_ad') }}">Add Trip</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+
+</ul>
+</ul>
+    </div>
+    <!-- Your other content goes here -->
+    <script src="script.js"></script>
+</body>
+
+</body>
+</html>

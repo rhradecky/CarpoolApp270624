@@ -41,7 +41,12 @@ class User_route(db.Model):
 
 @app.route('/')
 def home():
-    return redirect(url_for('login'))
+    return redirect(url_for('menu'))
+
+
+@app.route('/menu')
+def menu():
+    return render_template('menu.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
