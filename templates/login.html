@@ -27,23 +27,64 @@
             font-size: 14px;
             color: #888;
         }
+        .error-message {
+            color: red;
+            text-align: left; /* Move the error message to the left */
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .menu-icon {
+            /* Your menu icon styles */
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-right: 20px;
+        }
     </style>
 </head>
 <body>
-    <h2>Login</h2>
-    {% if error %}
-        <p style="color: red;">{{ error }}</p>
-    {% endif %}
-    <form action="/login" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <input type="submit" value="Login">
-    </form>
-<div class="footer">
+    <h1>RidePals</h1>
+    <div class="navbar">
+        <div class="menu-icon" id="menu-icon">
+            <!-- Your menu icon content -->
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="{{ url_for('menu') }}">Home</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+            <li><a href="{{ url_for('search') }}">Search Trip</a></li>
+            <li><a href="{{ url_for('create_ad') }}">Add Trip</a></li>
+            <li><a href="{{ url_for('about') }}">About Us</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <h2>Login</h2>
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        <form action="/login" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+    <div class="footer">
         &copy; 2024 RidePals | All rights reserved
     </div>
 </body>
