@@ -1,15 +1,27 @@
-// Get a reference to the background div (for welcome page)
-const backgroundDiv = document.getElementById('background');
-
-// Change the background image dynamically (you can customize this logic)
-function changeBackgroundImage() {
-    const randomImage = ['image1.jpg', 'image2.jpg', 'image3.jpg']; // Add your image filenames
-    const randomIndex = Math.floor(Math.random() * randomImage.length);
-    const imageUrl = `url(${randomImage[randomIndex]})`;
-    backgroundDiv.style.backgroundImage = imageUrl;
+function registerForTrip(rideId) {
+    // Make an API request to your Flask route for user registration
+    // You can use the fetch API or any other AJAX library
+    // Example using fetch:
+    fetch('/register_trip', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ rideId: rideId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle success or error messages
+        console.log(data.message);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
-// Call the function to change the background image (only on welcome page)
-if (backgroundDiv) {
-    changeBackgroundImage();
-}
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('register-button')) {
+        const rideId = event.target.getAttribute('data-ride-id');
+        registerForTrip(rideId);
+    }
+});

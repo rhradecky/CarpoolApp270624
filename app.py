@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -26,13 +26,17 @@ class Users(db.Model):
     notes = db.Column(db.String(255), nullable=False)
 
 
+class User_route(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, nullable=False)
+    ride_id = db.Column(db.Integer, nullable=False)
 
 
 # users = {
 #     'john': 'password123',
 #     'jane': 'mypassword'
 
-}
+# }
 
 
 @app.route('/')
@@ -82,7 +86,6 @@ def register():
         user = Users(username=username, password=password, email=email, notes=notes)
         db.session.add(user)
         db.session.commit()
-
 
         flash("User registered successfully!", "success")  # Add this line
 
@@ -140,29 +143,46 @@ def search():
     return render_template("search.html")
 
 
-@app.route('/register/<int:ride_id>', methods=['GET', 'POST'])
-def register_for_ride(ride_id):
-    if request.method == 'POST':
-        # Get data from the form
-        username = request.form['username']
-        email = request.form['email']
+# @app.route('/register/<int:ride_id>', methods=['GET', 'POST'])
+# def register_for_ride(ride_id):
+#     if request.method == 'POST':
+#         # Get data from the form
+#         username = request.form['username']
+#         email = request.form['email']
+#
+#         # Check if the username or email is already in use
+#         existing_user = Users.query.filter_by(username=username).first()
+#         existing_email = Users.query.filter_by(email=email).first()
+#
+#         if existing_user:
+#             return render_template("register.html", message="Username already taken. Please choose another one.")
+#
+#         if existing_email:
+#             return render_template("register.html",
+#                                    message="Email address already registered. Please use a different email.")
+#
+#         return f"Registration successful! You are registered for ride ID {ride_id}"
+#
+#     # Get ride information from the database
+#     ride = Rides.query.get(ride_id)
+#     return render_template('register.html', ride=ride)
 
-        # Check if the username or email is already in use
-        existing_user = Users.query.filter_by(username=username).first()
-        existing_email = Users.query.filter_by(email=email).first()
 
-        if existing_user:
-            return render_template("register.html", message="Username already taken. Please choose another one.")
+@app.route('/register_trip', methods=['POST'])
+def register_trip():
+    try:
+        # Parse the ride ID from the request data (usually sent as JSON)
+        data = request.get_json()
+        rides_id = data.get('rides_id')
 
-        if existing_email:
-            return render_template("register.html",
-                                   message="Email address already registered. Please use a different email.")
+        relationship = User_route(user_id=user_id, ride_id=ride_id)
+        db.session.add(relationship)
+        db.session.commit()
 
-        return f"Registration successful! You are registered for ride ID {ride_id}"
+        return jsonify({'message': 'User registered for trip successfully'})
 
-    # Get ride information from the database
-    ride = Rides.query.get(ride_id)
-    return render_template('register.html', ride=ride)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 @app.route('/about')
