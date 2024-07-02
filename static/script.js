@@ -58,3 +58,21 @@ loginLink.addEventListener('click', () => {{ url_for('about') }}
     // Redirect to the login page (replace with your actual login URL)
     window.location.href = 'about.html';
 });
+
+document.getElementById("register-button").addEventListener("click", function() {
+    // Perform the registration logic here
+    // For example, show a registration form or send an API request to register the user
+    // You can also redirect the user to a registration page using window.location.href
+});
+
+function doFunction() {
+    // Your registration logic here
+    // For example, show a registration form or send an API request
+    // You can also redirect the user to a registration page using window.location.href
+    alert("Button clicked!"); // Replace with your actual logic
+}
+
+function redirectToRegistration() {
+    // Redirect to the registration page
+    window.location.href = "{{ url_for('register') }}"; // Replace with your actual registration page URL
+}

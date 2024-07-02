@@ -146,6 +146,15 @@ def search():
             return f"Error: {str(e)}"
 
     return render_template("search.html")
+#
+#
+# @app.route('/all_trips')
+# def all_trips():
+#     # Retrieve all rides from the database
+#     rides = Rides.query.all()  # Assuming Rides is your SQLAlchemy model for rides
+#
+#     # Render a template with the ride data
+#     return render_template('search.html', rides=rides)
 
 
 @app.route('/register_trip', methods=['POST'])
